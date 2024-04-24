@@ -64,12 +64,8 @@ async def summary(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     country_data = data[0]
     cases_data = country_data.get("cases", {})
 
-    total_cases = 0
-    total_deaths = 0
-    for date_str, case_data in cases_data.items():
-        if date_str <= date:
-            total_cases += case_data["total"]
-            total_deaths += case_data["new"]
+    total_cases = cases_data.get(date, {}).get("total", 0)
+    total_deaths = cases_data.get(date, {}).get("new", 0)
 
     # Format and send the summary to the user
     summary_message = (
